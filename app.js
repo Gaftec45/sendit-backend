@@ -73,6 +73,10 @@ app.use('/user', dashRoutes)
 app.use('/api/orders', orderRoutes);
 app.use('/admin', adminRoutes);
 
+app.get('/', (req, res)=>{
+  res.send('Hello world')
+})
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
