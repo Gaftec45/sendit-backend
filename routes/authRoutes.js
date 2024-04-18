@@ -55,7 +55,8 @@ router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
         userId: user._id,
         user: {
             username: user.username,
-            email: user.email
+            email: user.email,
+            userId: user._id,
             // Include any other user details you need, but exclude sensitive data like password
         }
     });
