@@ -4,12 +4,13 @@ const Order = require('../models/Order');
 const User = require('../models/User');
 const { checkAuthenticated } = require('../middleware/authMiddleware');
 const { passport } = require('../Passport/passport');
+const { authenticate } = require('../middleware/authmiddlew');
 
-router.get('/create-order', (req, res) => {
+router.get('/create-order', checkAuthenticated, (req, res) => {
     res.status(200).json({ message: 'Create Order Form' });
 });
 
-router.post('/create-order', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.post('/create-order', authenticate, async (req, res) => {
     try {
         const { senderName, receiverName, destination, pickupStation, packageDetails, status } = req.body;
         const userId = req.user._id;
@@ -26,7 +27,7 @@ router.post('/create-order', passport.authenticate('jwt', { session: false }), a
     }
 });
 
-router.get('/orders', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/orders', authenticate, async (req, res) => {
     try {
         const orders = await Order.find().populate('user', '-password');
         res.status(200).json(orders);
@@ -36,7 +37,7 @@ router.get('/orders', passport.authenticate('jwt', { session: false }), async (r
       }
 });
 
-router.get('/:orderId', checkAuthenticated, async (req, res) => {
+router.get('/:orderId', authenticate, async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const order = await Order.findById(orderId).populate('user', '-password');
@@ -50,7 +51,7 @@ router.get('/:orderId', checkAuthenticated, async (req, res) => {
       }
 });
 
-router.put('/:orderId', checkAuthenticated, async (req, res) => {
+router.put('/:orderId', authenticate, async (req, res) => {
     const orderId = req.params.orderId;
     try {
         const updatedOrder = await Order.findByIdAndUpdate(orderId, req.body, { new: true });
@@ -66,7 +67,7 @@ router.put('/:orderId', checkAuthenticated, async (req, res) => {
     }
 });
 
-router.delete('/:orderId', checkAuthenticated, async (req, res) => {
+router.delete('/:orderId', authenticate, async (req, res) => {
     const orderId = req.params.orderId;
     try {
         const deletedOrder = await Order.findByIdAndDelete(orderId);
