@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up CORS with dynamic origin if needed
 const corsOptions = {
-  origin: process.env.FRONTEND_ORIGIN || 'https://send-it-app-ochre.vercel.app/',
+  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:3000',
   credentials: true
 };
 app.use(cors(corsOptions));
