@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up CORS with dynamic origin if needed
 const corsOptions = {
-  origin: process.env.FRONTEND_ORIGIN || 'https://sendit-app-two.vercel.app',
+  origin: process.env.FRONTEND_ORIGIN || 'https://send-it-app-ochre.vercel.app/',
   credentials: true
 };
 app.use(cors(corsOptions));
