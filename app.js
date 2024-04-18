@@ -32,8 +32,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({
   origin: process.env.FRONTEND_ORIGIN,
+  origin: 'https://sendit-app-two.vercel.app',
   credentials: true
 }));
+
+console.log(process.env.FRONTEND_ORIGIN)
 
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize());
