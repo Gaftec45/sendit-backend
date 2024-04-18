@@ -5,7 +5,7 @@ const User = require('../models/User');
 const { checkAuthenticated } = require('../middleware/authMiddleware');
 const { passport } = require('../Passport/passport');
 
-router.get('/create-order', checkAuthenticated, (req, res) => {
+router.get('/create-order', (req, res) => {
     res.status(200).json({ message: 'Create Order Form' });
 });
 

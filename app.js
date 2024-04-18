@@ -70,7 +70,7 @@ const dashRoutes = require('./routes/dashRoute');
 
 app.use('/api', authRoutes);
 app.use('/user', dashRoutes)
-app.use('/api/orders', orderRoutes);
+app.use('/api', orderRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/', (req, res)=>{
