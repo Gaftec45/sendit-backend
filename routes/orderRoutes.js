@@ -1,4 +1,4 @@
-const express = require('express');
+/* const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const User = require('../models/User');
@@ -84,7 +84,7 @@ router.delete('/:orderId', authenticate, async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = router; */
 
 
 
@@ -101,7 +101,7 @@ module.exports = router;
 
 
 
-/* const express = require('express');
+const express = require('express');
 const router = express.Router();
 const { createOrder, getAllOrders, getOrderById, updateOrder, deleteOrder } = require('../controllers/orderController');
 const { passport } = require('../Passport/passport'); // Import Passport configuration
@@ -121,4 +121,4 @@ router.put('/:orderId', passport.authenticate('jwt', { session: false }), update
 // Delete Order Route with Passport JWT authentication
 router.delete('/:orderId', passport.authenticate('jwt', { session: false }), deleteOrder);
 
-module.exports = router; */
+module.exports = router;

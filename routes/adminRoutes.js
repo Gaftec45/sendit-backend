@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 
-router.get('/dashboard', authenticate, async (req, res) => {
+router.get('/dashboard', async (req, res) => {
     try {
         const admin = req.user; // Assuming this holds the currently logged-in admin
         const usersWithOrders = await User.find({ role: 'user' }).populate('orders').exec();
@@ -19,7 +19,7 @@ router.get('/dashboard', authenticate, async (req, res) => {
     }
 });
 
-router.get('/users', authenticate, async (req, res)=> {
+router.get('/users', async (req, res)=> {
     try {
         const admin = req.user; // Assuming this holds the currently logged-in admin
         const usersWithOrders = await User.find({ role: 'user' }).populate('orders').exec();

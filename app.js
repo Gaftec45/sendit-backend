@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const { initialize } = require('./Passport/passport');
 const cors = require('cors');
 const User = require('./models/User');
+const URL = process.env.FRONTEND_ORIGIN
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up CORS with dynamic origin if needed
 const corsOptions = {
-  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:3000',
+  origin: URL || 'http://localhost:3000',
   credentials: true
 };
 app.use(cors(corsOptions));
@@ -70,7 +71,7 @@ const dashRoutes = require('./routes/dashRoute');
 
 app.use('/api', authRoutes);
 app.use('/user', dashRoutes)
-app.use('/api', orderRoutes);
+app.use('/api/orders', orderRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/', (req, res)=>{
