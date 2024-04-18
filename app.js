@@ -35,6 +35,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize());
 app.use(passport.session());
