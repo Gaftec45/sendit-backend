@@ -4,12 +4,11 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const flash = require('express-flash');
-const passport = require('passport')
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const { initialize } = require('./Passport/passport');
 const cors = require('cors');
 const User = require('./models/User');
-const URI = process.env.MONGO_URI;
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,8 +19,6 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// app.use(flash());
-
 app.set('view engine', 'ejs');
 
 app.use(express.json());
@@ -30,13 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN,
-  origin: 'https://sendit-app-two.vercel.app',
+// Set up CORS with dynamic origin if needed
+const corsOptions = {
+  origin: process.env.FRONTEND_ORIGIN || 'https://sendit-app-two.vercel.app',
   credentials: true
-}));
-
-console.log(process.env.FRONTEND_ORIGIN)
+};
+app.use(cors(corsOptions));
 
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize());
@@ -47,19 +43,18 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Custom Passport initialization logic
 initialize(passport,
   async id => await User.findById(id),
   async email => await User.findOne({ email }),
   async password => await User.findOne({ password })
 );
-initialize(passport);
 
 app.use(flash());
 
 async function connectToMongoDB() {
-  // const URI = process.env.MONGO_URI;
   try {
-      await mongoose.connect(URI);
+      await mongoose.connect(process.env.MONGO_URI);
       console.log('MongoDB connected');
   } catch (error) {
       console.error('Error connecting to MongoDB:', error);
@@ -76,9 +71,7 @@ const dashRoutes = require('./routes/dashRoute');
 app.use('/api', authRoutes);
 app.use('/user', dashRoutes)
 app.use('/api/orders', orderRoutes);
-app.use('/admin', adminRoutes)
-
-
+app.use('/admin', adminRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
