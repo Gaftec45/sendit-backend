@@ -62,9 +62,9 @@ router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 });
 
 
-router.get('/logout', (req, res) => {
-    req.logout();
-    res.status(200).json({ message: 'Logout successful' });
+router.post('/logout', (req, res) => {
+    // This is just a formal endpoint and does not perform real "logout"
+    res.status(200).json({ message: 'Please delete your token to logout.' });
 });
 
 module.exports = router;
