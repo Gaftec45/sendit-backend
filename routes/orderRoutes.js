@@ -11,6 +11,7 @@ router.get('/create-order', checkAuthenticated, (req, res) => {
 });
 
 router.post('/create-order', authenticate, async (req, res) => {
+    console.log(req.user);
     try {
         const { senderName, receiverName, destination, pickupStation, packageDetails, status } = req.body;
         const userId = req.user._id;
