@@ -30,20 +30,25 @@ router.get('/users', async (req, res)=> {
     }
 });
 
-// Server-side Express route for updating order status
-router.post('/admin/updateOrderStatus/:orderId', async (req, res) => {
-    const { orderId } = req.params;
-    const { status } = req.body;
+// Route to handle updating order status
+router.post('/orderstatus/:orderId', async (req, res) => {
+    const orderId = req.params.orderId;
+    const updatedStatus = req.body.status;
 
-    res.status(200).json({ orderId, status })
-    // try {
-    //     // Update order status in the database
-    //     const updatedOrder = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
-    //     res.json({ message: 'Order status updated successfully', updatedOrder });
-    // } catch (error) {
-    //     console.error('Error updating order status:', error);
-    //     res.status(500).json({ error: 'Failed to update order status' });
-    // }
+    try {
+        // Find the order by its ID and update the status
+        const updatedOrder = await Order.findByIdAndUpdate(orderId, { status: updatedStatus }, { new: true });
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        // If the order is updated successfully, send back the updated order object
+        res.status(200).json({ message: 'Order status updated successfully', order: updatedOrder });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 

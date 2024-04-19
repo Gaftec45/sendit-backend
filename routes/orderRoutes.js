@@ -116,7 +116,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), getAllOrders);
 router.get('/:orderId', passport.authenticate('jwt', { session: false }), getOrderById); 
 
 // Update Order Route with Passport JWT authentication
-router.put('/:orderId', passport.authenticate('jwt', { session: false }), updateOrder);
+router.post('/:orderId', passport.authenticate('jwt', { session: false }), updateOrder);
 
 // Delete Order Route with Passport JWT authentication
 router.delete('/:orderId', passport.authenticate('jwt', { session: false }), deleteOrder);

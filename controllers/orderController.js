@@ -57,19 +57,39 @@ const getOrderById = async (req, res) => {
 
 // Update Order
 const updateOrder = async (req, res) => {
+  const { orderId } = req.params;
   try {
-    const orderId = req.params.orderId;
-    const updatedOrder = req.body;
-    const order = await Order.findByIdAndUpdate(orderId, updatedOrder, { new: true });
-    if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
-    }
-    res.status(200).json(order);
+      // Fetch the order to ensure it is in a 'pending' state before updating
+      const order = await Order.findById(orderId);
+
+      if (!order) {
+          return res.status(404).json({ message: 'Order not found' });
+      }
+
+      if (order.status !== 'pending') {
+          return res.status(403).json({ message: 'Order cannot be edited as it is no longer pending.' });
+      }
+
+      // Update the order if it is in the pending state
+      const updatedOrder = await Order.findByIdAndUpdate(orderId, {
+          senderName: req.body.senderName,
+          receiverName: req.body.receiverName,
+          destination: req.body.destination,
+          pickupStation: req.body.pickupStation,
+          packageDetails: req.body.packageDetails
+      }, { new: true }); // Return the updated document
+
+      if (updatedOrder) {
+          res.json({ message: 'Order updated successfully', order: updatedOrder });
+      } else {
+          res.status(404).json({ message: 'Order not updated' });
+      }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+      console.error('Error updating order: ', error);
+      res.status(500).json({ message: 'Failed to update order', error: error.message });
   }
 };
+
 
 // Delete Order
 const deleteOrder = async (req, res) => {
