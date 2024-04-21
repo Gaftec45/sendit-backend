@@ -25,19 +25,19 @@ router.get('/dashboard', authenticate, async (req, res) => {
   }
 });
 
-router.get('/verify-token', authenticate,  (req, res) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer Token
+// router.get('/verify-token', authenticate,  (req, res) => {
+//   const authHeader = req.headers.authorization;
+//   const token = authHeader && authHeader.split(' ')[1]; // Bearer Token
 
-  if (!token) return res.status(401).json({ error: 'No token provided' });
+//   if (!token) return res.status(401).json({ error: 'No token provided' });
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: 'Token is invalid' });
-    }
-    res.json({ user: decoded });
-  });
-});
+//   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+//     if (err) {
+//       return res.status(401).json({ error: 'Token is invalid' });
+//     }
+//     res.json({ user: decoded });
+//   });
+// });
 
 
 module.exports = router;
