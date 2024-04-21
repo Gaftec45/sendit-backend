@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
 const crypto = require('crypto');
-const { checkNotAuthenticated, isAdmin } = require('../middleware/authMiddleware');
+const { checkNotAuthenticated } = require('../middleware/authMiddleware');
 const { passport } = require('../Passport/passport');
 const { generateToken } = require('../middleware/handleToken');
 
