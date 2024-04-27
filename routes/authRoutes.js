@@ -47,7 +47,7 @@ router.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     const token = jwt.sign(
         { id: user._id, role: user.role }, // Example of adding role to the token
         process.env.JWT_SECRET,
-        { expiresIn: '5h' }
+        { expiresIn: '5d' }
     );
     res.status(200).json({
         role: user.role,
